@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,17 +17,19 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.alibaba.fastjson.JSONArray;
+
 import com.movie.dao.api.LikeDao;
 import com.movie.dao.api.MovieDao;
 import com.movie.dao.api.ReviewDao;
 import com.movie.dao.api.UserDao;
 import com.movie.dao.impl.UserDaoImpl;
 import com.movie.form.Actor;
+import com.movie.form.Giftcard;
 import com.movie.form.Movie;
 import com.movie.form.Review;
 import com.movie.form.ReviewLike;
+import com.movie.form.Support;
 import com.movie.form.User;
 import util.Constant;
 
@@ -89,11 +92,15 @@ public class UserController {
 		String password = request.getParameter("password");
 		System.out.println(username+password);
 		User user = userDao.getUserByUserName(username, password);
+		if(user == null){
+			user = userDao.getUserByEmail(username, password);
+		}
 		request.getSession().setAttribute("user", user);
 		if(user==null){
 			request.setAttribute("info", "Wrong!");
 			return "profile";
 		}else if(user.getType()==Constant.USER){//表示普通用户
+			request.getSession().setAttribute("user", user);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar calendar = Calendar.getInstance();
 	        Date date = new Date(System.currentTimeMillis());
@@ -105,18 +112,25 @@ public class UserController {
 			return "index";
 		}else if(user.getType()==Constant.ADMIN){//表示管理员
 			//List<Movie> movies = movieDao.getMovieByKeyWord("");
+			request.getSession().setAttribute("user", user);
 			List<User> users = userDao.getAllUser();
 			request.setAttribute("users", users);
-			return "controll";
+			return "index";
 		}
 		return "profile";
 	}
 	@RequestMapping(value="register.do")
 	public String register(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		User user;
+		boolean newUser = false;
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			user = new User();
+			newUser = true;
+		}
 		String email = request.getParameter("Email");
 		String userName = request.getParameter("userid");
 		String password = request.getParameter("password");
-		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setDateJoined(new Date());
@@ -124,8 +138,17 @@ public class UserController {
 		user.setFname(request.getParameter("firstName"));
 		user.setLname(request.getParameter("lastName"));
 		user.setZipcode(request.getParameter("zipcode"));
-		user.setType(Constant.USER);
-		userDao.saveUser(user);
+		if(request.getParameter("newsletter") != null){
+			user.setNews(true);
+		}else{
+			user.setNews(false);
+		}
+//		user.setType(Constant.USER);
+		if(newUser){
+			userDao.saveUser(user);
+		}else{
+			userDao.updateUser(user);
+		}
 		request.getSession().setAttribute("user", user);
 		return "redirect:index.do";
 	}
@@ -157,4 +180,53 @@ public class UserController {
 		return "controll";
 	}
 	
+	@RequestMapping(value="support.do")
+	public String support(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		String email = request.getParameter("email");
+		String question = request.getParameter("question");
+		Support support = new Support();
+		support.setEmail(email);
+		support.setQuestion(question);
+		System.out.println("get question:" + question + " email: " + email);
+		userDao.submitSupport(support);
+		return "supportResult";
+	}
+	
+	@RequestMapping(value="giftcard.do")
+	public String giftcard(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		User buyer = (User) request.getSession().getAttribute("user");
+		String email = request.getParameter("email");
+		String message = request.getParameter("message");
+		int amount = Integer.parseInt(request.getParameter("amount"));
+		Random rnd = new Random();
+		int n = 100000 + rnd.nextInt(900000); // 6 digit
+		Giftcard gc = new Giftcard();
+		gc.setAmount(amount);
+		if(buyer != null){
+			gc.setBuyerId(buyer.getId());
+		}else{
+			gc.setBuyerId(1);
+		}
+		gc.setUsed(false);
+		gc.setCardId(n);
+		userDao.saveGiftcard(gc);
+		//send card message to receiver email
+		System.out.println("gift id is: " + n);
+		return "giftcardResult";
+	}
+	
+	@RequestMapping(value="redeemGiftcard.do")
+	public String redeemGiftcard(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		User user = (User) request.getSession().getAttribute("user");
+		int card = Integer.parseInt(request.getParameter("card"));
+		Giftcard gc = userDao.getGiftcard(card);
+		if(gc == null || gc.isUsed() == true){
+			return "register";
+		}
+		user.setMoney(user.getMoney() + gc.getAmount());
+		userDao.updateUser(user);
+		gc.setUsed(true);
+		userDao.updateGiftcard(gc);
+		return "register";
+	}
 }

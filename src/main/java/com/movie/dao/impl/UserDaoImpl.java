@@ -15,6 +15,8 @@ import util.Constant;
 
 import com.movie.dao.api.UserDao;
 import com.movie.form.Actor;
+import com.movie.form.Giftcard;
+import com.movie.form.Support;
 import com.movie.form.User;
 
 @Transactional
@@ -30,6 +32,20 @@ public class UserDaoImpl implements UserDao {
 		Query query = session.createQuery(
 				"from User user where user.username=:username and user.password =:password");
 		query.setParameter("username", userName);
+		query.setParameter("password", password);
+		@SuppressWarnings("unchecked")
+		List<User> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
+		}
+	}
+	public User getUserByEmail(String email,String password) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from User user where user.email=:email and user.password =:password");
+		query.setParameter("email", email);
 		query.setParameter("password", password);
 		@SuppressWarnings("unchecked")
 		List<User> resultList = query.list();
@@ -76,6 +92,47 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		} else {
 			return resultList;
+		}
+	}
+	
+	public boolean submitSupport(Support support){
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.save(support);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	public boolean saveGiftcard(Giftcard giftcard){
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.save(giftcard);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	public boolean updateGiftcard(Giftcard giftcard){
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.update(giftcard);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	public Giftcard getGiftcard(int cardId){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from Giftcard giftcard where giftcard.cardId=:cardId");
+		query.setParameter("cardId", cardId);
+		@SuppressWarnings("unchecked")
+		List<Giftcard> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
 		}
 	}
 }

@@ -23,13 +23,13 @@
   </div>
   <div class="col-md-3">
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#">Product for OS system</a></li>
+      <li><a href="support.jsp">Support</a></li>
       <li><a href="#">Product for Windows</a></li>
     </ul>
   </div>
   <div class="col-md-3">
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#">Web analytics</a></li>
+      <li><a href="buyGiftcard.jsp">Buy GiftCard</a></li>
       <li><a href="#">Presentations</a></li>
     </ul>
   </div>
@@ -45,7 +45,7 @@
 <div class="row">
     <div class="col-lg-12">
         <ul class="nav nav-pills nav-justified">
-            <li><a href="/">© 2017 Fandango</a></li>
+            <li><a href="/">© 2017 Sbu Movie</a></li>
             <li><a href="#">Terms of Service</a></li>
             <li><a href="#">Privacy</a></li>
         </ul>
@@ -53,14 +53,7 @@
 </div>
 </div>
 
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="js/carousel-1.js" type="text/javascript"></script>
-<script src="js/carousel-2.js" type="text/javascript"></script>
-<script src="js/filter.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/pageView.js"></script>
-<script src="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/js/bootstrap-dropdownhover.js"></script>
+
 </footer>
 
 

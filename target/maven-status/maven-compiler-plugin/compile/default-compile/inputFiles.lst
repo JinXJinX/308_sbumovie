@@ -2,6 +2,7 @@
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/dao/api/ActorDao.java
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/controller/ReviewController.java
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/dao/api/LikeDao.java
+/Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/form/Giftcard.java
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/form/Performs.java
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/controller/UserController.java
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/form/Theater.java
@@ -27,3 +28,4 @@
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/form/User.java
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/form/Article.java
 /Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/Test.java
+/Users/jx/Desktop/2017SP/CSE308/CSE_2/CSE_1/src/main/java/com/movie/form/Support.java

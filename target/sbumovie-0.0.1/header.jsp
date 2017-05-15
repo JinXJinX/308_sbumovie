@@ -14,8 +14,16 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <link href="css/homepage.css" rel="stylesheet">
-<link href="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-<link href="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/css/animate.min.css" rel="stylesheet">
+
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/carousel-1.js" type="text/javascript"></script>
+<script src="js/carousel-2.js" type="text/javascript"></script>
+<script src="js/filter.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/pageView.js"></script>
+
+
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
 
@@ -37,12 +45,31 @@
 	      <ul class="nav navbar-nav">
 	        <li><a href="./">Home</a></li>
 	        <li><a href="./">Movie News</a></li>
-	        <li><a href="./">My Movies</a></li>
+	        <li>
+			    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+			    Genre
+				</button>
+			    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=now">Now Playing</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=upcoming">Upcoming</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=box">Top Box Office</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Thriller">Thriller</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Documentary">Documentary</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Comedy">Comedy</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Adventure">Adventure</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Drama">Drama</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Action">Action</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Horror">Horror</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Fantasy">Fantasy</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Family">Family</a></li>
+			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Romance">Romance</a></li>
+			    </ul>
+			</li>
 	        
 	        <c:choose>
                       <c:when test="${user != None && user.type == 1}">
                       <li>
-								    <!-- <button class="dropbtn" type="button" data-hover="dropdown">
+								    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
 								    Admin
 									</button>
 								    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
@@ -50,7 +77,7 @@
 								      <li role="presentation"><a role="menuitem" tabindex="-1" href="movieControll.jsp">Movie List</a></li>
 								      <li role="presentation"><a role="menuitem" tabindex="-1" href="actroControll.jsp">Actor List</a></li>
 								      <li role="presentation"><a role="menuitem" tabindex="-1" href="reviewControll.jsp">Review List</a></li>
-								    </ul> -->
+								    </ul>
 						</li>
                       </c:when>
            </c:choose>
@@ -61,19 +88,19 @@
                   <c:choose>
                       <c:when test="${user != None}">
                           <li>
-		                    <a href="register.do">${user.email}</a>
+		                    <a href="register.jsp">${user.email}</a>
 		                    </li>
 		                    <li>
 		                    <a href="logout.do">Logout</a>
 		                    </li>
                       </c:when>
                       <c:otherwise>
-                    <li>
-                    <a href="login.do">Sign In</a>
-                    </li>
-                    <li>
-                    <a href="register.jsp">Sign Up</a>
-                    </li>
+	                    <li>
+	                    <a href="login.do">Sign In</a>
+	                    </li>
+	                    <li>
+	                    <a href="register.jsp">Sign Up</a>
+	                    </li>
                     </c:otherwise>
                 </c:choose>
 

@@ -14,21 +14,15 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <link href="css/homepage.css" rel="stylesheet">
-<link href="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-<link href="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/css/animate.min.css" rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/carousel-1.js" type="text/javascript"></script>
+<script src="js/carousel-2.js" type="text/javascript"></script>
+<script src="js/filter.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/pageView.js"></script>
 
-    <!-- Documentation extras -->
-    <link href="css/docs.min.css" rel="stylesheet">
-
-    <!-- Social likes -->
-    <link rel="stylesheet" href="assets/social-likes/social-likes_classic.css">
-
-    <!-- Bootstrap Dropdown Hover CSS -->
-    <link rel="stylesheet" href="assets/bootstrap-dropdownhover/css/animate.min.css">
-    <link rel="stylesheet" href="assets/bootstrap-dropdownhover/css/bootstrap-dropdownhover.min.css">
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
@@ -94,19 +88,19 @@
                   <c:choose>
                       <c:when test="${user != None}">
                           <li>
-		                    <a href="register.do">${user.email}</a>
+		                    <a href="register.jsp">${user.email}</a>
 		                    </li>
 		                    <li>
 		                    <a href="logout.do">Logout</a>
 		                    </li>
                       </c:when>
                       <c:otherwise>
-                    <li>
-                    <a href="login.do">Sign In</a>
-                    </li>
-                    <li>
-                    <a href="register.jsp">Sign Up</a>
-                    </li>
+	                    <li>
+	                    <a href="login.do">Sign In</a>
+	                    </li>
+	                    <li>
+	                    <a href="register.jsp">Sign Up</a>
+	                    </li>
                     </c:otherwise>
                 </c:choose>
 
