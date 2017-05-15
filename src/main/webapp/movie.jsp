@@ -251,9 +251,6 @@
 	    <% 
 	}
 %>
-            
-
-
         <c:forEach items="${reviews}" var="review" varStatus="status1">
                     <div class="col-md-8">
 
@@ -270,9 +267,14 @@
                         <a href="reviewlike.do?reviewId=${review.id}&status=-1">
                           Dislike
                         </a>
-                        <a href="deleteR.do?reviewId=${review.id}">
-                          Delete
-                        </a>
+                         <c:choose>
+                              <c:when test="${ user != null && (user.id == review.userId || user.type==1) }">
+                                <a href="deleteR.do?reviewId=${review.id}">
+			                        Delete
+			                        </a>
+                              </c:when>
+                          </c:choose>
+                        
                     </div>
 
                     <div class="span8">

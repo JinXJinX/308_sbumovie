@@ -122,6 +122,21 @@
               
               </div>
             </div>
+            
+            <!-- money amount -->
+            
+              <c:choose>
+                 <c:when test="${user != null && user.news == true}">
+                     <div class="control-group">
+		              <label class="control-label" for="password">receive Newsletter:</label>
+			              <div class="controls">
+			                     Price amount $: ${user.money}
+			                </div>
+		            </div>
+                </c:when>
+              </c:choose>
+              
+              
 
             <!-- Button -->
             <div class="control-group">

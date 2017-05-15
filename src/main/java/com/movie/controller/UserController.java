@@ -30,6 +30,7 @@ import com.movie.form.Movie;
 import com.movie.form.Review;
 import com.movie.form.ReviewLike;
 import com.movie.form.Support;
+import com.movie.form.Theater;
 import com.movie.form.User;
 import util.Constant;
 
@@ -101,21 +102,11 @@ public class UserController {
 			return "profile";
 		}else if(user.getType()==Constant.USER){//表示普通用户
 			request.getSession().setAttribute("user", user);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Calendar calendar = Calendar.getInstance();
-	        Date date = new Date(System.currentTimeMillis());
-	        calendar.setTime(date);
-	        calendar.add(Calendar.YEAR, -1);
-	        date = calendar.getTime();
-			List<Movie> movies = movieDao.getMovieByDataTime(sdf.format(date));
-			request.setAttribute("movies", movies);
-			return "index";
+			return "redirect:index.do";
 		}else if(user.getType()==Constant.ADMIN){//表示管理员
 			//List<Movie> movies = movieDao.getMovieByKeyWord("");
 			request.getSession().setAttribute("user", user);
-			List<User> users = userDao.getAllUser();
-			request.setAttribute("users", users);
-			return "index";
+			return "redirect:index.do";
 		}
 		return "profile";
 	}
@@ -158,8 +149,18 @@ public class UserController {
 		String query = request.getParameter("query").trim();
 		System.out.println(query+" // ");
 		List<Movie> movies = movieDao.getMovieByKeyWord(query);
+		List<Theater> theater = userDao.getTheaterByKey(query);
 		request.setAttribute("movies", movies);
 		request.setAttribute("query", query);
+		request.setAttribute("theater", theater);
+		return "search";
+	}
+	
+	@RequestMapping(value="searchTheater.do")
+	public String searchTheater(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		List<Theater> theater = userDao.getAllTheater();
+		request.setAttribute("theater", theater);
+		request.setAttribute("query", "All Theater");
 		return "search";
 	}
 	
@@ -228,5 +229,13 @@ public class UserController {
 		gc.setUsed(true);
 		userDao.updateGiftcard(gc);
 		return "register";
+	}
+	
+	@RequestMapping(value="theater.do")
+	public String theater(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		int theaterId = Integer.parseInt(request.getParameter("theaterId"));
+		Theater theater = userDao.getTheater(theaterId);
+		request.setAttribute("theater", theater);
+		return "theater";
 	}
 }

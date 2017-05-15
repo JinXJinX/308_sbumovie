@@ -1,5 +1,6 @@
 package com.movie.dao.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -16,7 +17,9 @@ import util.Constant;
 import com.movie.dao.api.UserDao;
 import com.movie.form.Actor;
 import com.movie.form.Giftcard;
+import com.movie.form.Movie;
 import com.movie.form.Support;
+import com.movie.form.Theater;
 import com.movie.form.User;
 
 @Transactional
@@ -133,6 +136,53 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		} else {
 			return resultList.get(0);
+		}
+	}
+	
+	public Theater getTheater(int theaterId){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from Theater theater where theater.id=:theaterId");
+		query.setParameter("theaterId", theaterId);
+		@SuppressWarnings("unchecked")
+		List<Theater> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
+		}
+	}
+	
+	public List<Theater> getAllTheater() {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from Theater theater");
+		@SuppressWarnings("unchecked")
+		List<Theater> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList;
+		}
+	}
+	
+	public List<Theater> getTheaterByKey(String keyword){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = null;
+		try {
+			query = session.createQuery(
+					"from Theater theater where theater.address like :keyword or theater.zipcode like :keyword");
+			query.setParameter("keyword", "%"+keyword+"%");
+			query.setParameter("keyword", "%"+keyword+"%");
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} 
+		@SuppressWarnings("unchecked")
+		List<Theater> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList;
 		}
 	}
 }

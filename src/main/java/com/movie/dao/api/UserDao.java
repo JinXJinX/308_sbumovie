@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.movie.form.Giftcard;
 import com.movie.form.Support;
+import com.movie.form.Theater;
 import com.movie.form.User;
 
 public interface UserDao {
@@ -15,6 +16,9 @@ public interface UserDao {
 	public boolean updateGiftcard(Giftcard giftcard);
 	public boolean saveGiftcard(Giftcard giftcard);
 	public Giftcard getGiftcard(int cardId);
+	public Theater getTheater(int theaterId);
+	public List<Theater> getAllTheater();
+	public List<Theater> getTheaterByKey(String keyword);
 	public int saveUser(User user);
 
 	public int updateUser(User user);

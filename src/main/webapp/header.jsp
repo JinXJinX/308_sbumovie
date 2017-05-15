@@ -44,7 +44,7 @@
     <div class="collapse navbar-collapse" id="navbar-brand-centered">
 	      <ul class="nav navbar-nav">
 	        <li><a href="./">Home</a></li>
-	        <li><a href="./">Movie News</a></li>
+	        <li><a href="searchTheater.do">Theater</a></li>
 	        <li>
 			    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
 			    Genre

@@ -30,7 +30,7 @@
   <div class="col-md-3">
     <ul class="nav nav-pills nav-stacked">
       <li><a href="buyGiftcard.jsp">Buy GiftCard</a></li>
-      <li><a href="#">Presentations</a></li>
+      <li><a href="redeemGiftcard.jsp">Redeem Gift Card</a></li>
     </ul>
   </div>
   <div class="col-md-3">
