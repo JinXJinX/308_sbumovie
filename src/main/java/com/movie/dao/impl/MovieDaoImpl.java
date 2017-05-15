@@ -3,6 +3,7 @@ package com.movie.dao.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.movie.dao.api.MovieDao;
 import com.movie.form.Movie;
+
+import util.Constant;
 @Transactional
 @Repository(value = "movieDaoImpl")
 public class MovieDaoImpl implements MovieDao{
@@ -123,6 +126,36 @@ public class MovieDaoImpl implements MovieDao{
 		} 
 		@SuppressWarnings("unchecked")
 		List<Movie> resultList = query.setFirstResult((page - 1) * pageSize).setMaxResults(pageSize).list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList;
+		}
+	}
+	public List<Movie> getMovieByGenre(String genre) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = null;
+		try {
+			if(genre.equals("upcoming")){
+				query = session.createQuery(
+						"from Movie movie where movie.showing=:showing").setParameter(
+						"showing", Constant.UPCOMING);
+			}else if(genre.equals("now")){
+				query = session.createQuery(
+						"from Movie movie where movie.showing=:showing").setParameter(
+						"showing", Constant.SHOWING);
+			}else if(genre.equals("box")){
+				//TODO
+			}else{
+				query = session.createQuery(
+						"from Movie movie where movie.genre =:genre");
+				query.setParameter("genre", genre);
+			}
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} 
+		@SuppressWarnings("unchecked")
+		List<Movie> resultList = query.list();
 		if (resultList.isEmpty()) {
 			return null;
 		} else {

@@ -270,6 +270,9 @@
                         <a href="reviewlike.do?reviewId=${review.id}&status=-1">
                           Dislike
                         </a>
+                        <a href="deleteR.do?reviewId=${review.id}">
+                          Delete
+                        </a>
                     </div>
 
                     <div class="span8">

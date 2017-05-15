@@ -2,6 +2,7 @@ package com.movie.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import util.Constant;
 
 import com.movie.dao.api.UserDao;
+import com.movie.form.Actor;
 import com.movie.form.User;
 
 @Transactional
@@ -47,7 +49,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return Constant.SUCCESS;
 	}
-
+	
 	public User getUserByUserId(long userId) {
 		Session session = sessionFactory.getCurrentSession();
 		User user = (User) session.get(User.class, userId);

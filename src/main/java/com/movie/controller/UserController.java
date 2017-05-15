@@ -17,11 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSONArray;
 import com.movie.dao.api.LikeDao;
 import com.movie.dao.api.MovieDao;
 import com.movie.dao.api.ReviewDao;
 import com.movie.dao.api.UserDao;
 import com.movie.dao.impl.UserDaoImpl;
+import com.movie.form.Actor;
 import com.movie.form.Movie;
 import com.movie.form.Review;
 import com.movie.form.ReviewLike;
@@ -89,7 +91,7 @@ public class UserController {
 		User user = userDao.getUserByUserName(username, password);
 		request.getSession().setAttribute("user", user);
 		if(user==null){
-			request.setAttribute("info", "用户名或密码错误");
+			request.setAttribute("info", "Wrong!");
 			return "profile";
 		}else if(user.getType()==Constant.USER){//表示普通用户
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -124,7 +126,8 @@ public class UserController {
 		user.setZipcode(request.getParameter("zipcode"));
 		user.setType(Constant.USER);
 		userDao.saveUser(user);
-		return "register";
+		request.getSession().setAttribute("user", user);
+		return "redirect:index.do";
 	}
 
 	@RequestMapping(value="search.do")
@@ -136,4 +139,22 @@ public class UserController {
 		request.setAttribute("query", query);
 		return "search";
 	}
+	
+	@RequestMapping(value="searchGenre.do")
+	public String searchGenre(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		String genre = request.getParameter("genre").trim();
+		System.out.println(genre+" // ");
+		List<Movie> movies = movieDao.getMovieByGenre(genre);
+		request.setAttribute("movies", movies);
+		request.setAttribute("query", genre);
+		return "search";
+	}
+	
+	@RequestMapping(value="controll.do")
+	public String controll(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		List<User> users = userDao.getAllUser();
+		request.setAttribute("users", users);
+		return "controll";
+	}
+	
 }

@@ -52,6 +52,24 @@
     </div>
 </div>
 </div>
+
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/carousel-1.js" type="text/javascript"></script>
+<script src="js/carousel-2.js" type="text/javascript"></script>
+<script src="js/filter.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/pageView.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/docs.js"></script>
+
+    <script src="assets/bootstrap-dropdownhover/js/bootstrap-dropdownhover.js"></script>
+
+    <script src="assets/social-likes/social-likes.min.js"></script>
 </footer>
 
 

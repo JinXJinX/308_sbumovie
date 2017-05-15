@@ -52,6 +52,15 @@
     </div>
 </div>
 </div>
+
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/carousel-1.js" type="text/javascript"></script>
+<script src="js/carousel-2.js" type="text/javascript"></script>
+<script src="js/filter.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/pageView.js"></script>
+<script src="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/js/bootstrap-dropdownhover.js"></script>
 </footer>
 
 

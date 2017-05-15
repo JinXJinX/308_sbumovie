@@ -12,15 +12,10 @@
 <meta name="author" content="">
 <title>SBU MOVIE</title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/homepage.css" rel="stylesheet">
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="js/carousel-1.js" type="text/javascript"></script>
-<script src="js/carousel-2.js" type="text/javascript"></script>
-<script src="js/filter.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/pageView.js"></script>
 
+<link href="css/homepage.css" rel="stylesheet">
+<link href="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+<link href="http://kybarg.github.io/bootstrap-dropdown-hover/assets/bootstrap-dropdownhover/css/animate.min.css" rel="stylesheet">
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
 
@@ -41,9 +36,24 @@
     <div class="collapse navbar-collapse" id="navbar-brand-centered">
 	      <ul class="nav navbar-nav">
 	        <li><a href="./">Home</a></li>
-	        <li><a href="./">Movie Times+Tickets</a></li>
 	        <li><a href="./">Movie News</a></li>
 	        <li><a href="./">My Movies</a></li>
+	        
+	        <c:choose>
+                      <c:when test="${user != None && user.type == 1}">
+                      <li>
+								    <!-- <button class="dropbtn" type="button" data-hover="dropdown">
+								    Admin
+									</button>
+								    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+								      <li role="presentation"><a role="menuitem" tabindex="-1" href="controll.do">User List</a></li>
+								      <li role="presentation"><a role="menuitem" tabindex="-1" href="movieControll.jsp">Movie List</a></li>
+								      <li role="presentation"><a role="menuitem" tabindex="-1" href="actroControll.jsp">Actor List</a></li>
+								      <li role="presentation"><a role="menuitem" tabindex="-1" href="reviewControll.jsp">Review List</a></li>
+								    </ul> -->
+						</li>
+                      </c:when>
+           </c:choose>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
            

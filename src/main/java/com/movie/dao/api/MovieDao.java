@@ -10,6 +10,7 @@ public interface MovieDao {
 	public List<Movie> getMovieByVisit();
 	public List<Movie> getMovieByKeyWord(String keyword);
 	public List<Movie> getMovieByKeyWordPage(String keyword,int page,int pageSize);
+	public List<Movie> getMovieByGenre(String genre);
 	public Movie getMovieById(int id);
 	public boolean updateMovie(Movie movie);
 	public boolean adddMovie(Movie movie);
