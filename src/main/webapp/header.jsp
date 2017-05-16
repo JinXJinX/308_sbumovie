@@ -23,6 +23,28 @@
 <script src="js/filter.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/pageView.js"></script>
 
+<!-- facebook start -->
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1532719226761259',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+<!-- facebook end -->
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
@@ -44,7 +66,24 @@
     <div class="collapse navbar-collapse" id="navbar-brand-centered">
 	      <ul class="nav navbar-nav">
 	        <li><a href="./">Home</a></li>
-	        <li><a href="searchTheater.do">Theater</a></li>
+	        <li><a href="searchTheater.do">Theaters</a></li>
+	        <li>
+			    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+			    News
+				</button>
+			    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+			    <c:forEach items="${articles}" var="article" varStatus="status1">
+
+                         <li role="presentation">
+                                  <a role="menuitem" tabindex="-1" href="${article.url}">
+                                  <img src="${article.imageUrl}" width="65" height ="45" alt="">
+                                    ${article.title }
+                                  </a>
+                         </li>
+                  </c:forEach>
+			      
+			    </ul>
+			</li>
 	        <li>
 			    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
 			    Genre
@@ -65,7 +104,7 @@
 			      <li role="presentation"><a role="menuitem" tabindex="-1" href="searchGenre.do?genre=Romance">Romance</a></li>
 			    </ul>
 			</li>
-	        
+
 	        <c:choose>
                       <c:when test="${user != None && user.type == 1}">
                       <li>
@@ -77,13 +116,15 @@
 								      <li role="presentation"><a role="menuitem" tabindex="-1" href="movieControll.jsp">Movie List</a></li>
 								      <li role="presentation"><a role="menuitem" tabindex="-1" href="actroControll.jsp">Actor List</a></li>
 								      <li role="presentation"><a role="menuitem" tabindex="-1" href="reviewControll.jsp">Review List</a></li>
+								      <li role="presentation"><a role="menuitem" tabindex="-1" href="news.jsp">Send News</a></li>
+								      <li role="presentation"><a role="menuitem" tabindex="-1" href="getSupport.do">Check Support</a></li>
 								    </ul>
 						</li>
                       </c:when>
            </c:choose>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
-           
+
                 <li>
                   <c:choose>
                       <c:when test="${user != None}">
@@ -116,12 +157,11 @@
                       <div class="col-sm-3"><br></div>
                       <div class="col-sm-6">
                           <form method="post" action="search.do"class="form-inline">
-                              <input type="text" name="query" class="form-control"  style="width: 600px"placeholder="keyword">
-                              <!-- <select name="searchFlag" class="form-control" >
-                              	<option value="movieFlag" >movie</option>
-                              	<option value="actorFlag">actor</option>
-                              </select> -->
-                              <input type="submit" class="btn btn-primary" value="Search"> 
+                          
+                              <input type="text" name="query" class="form-control"  style="width: 450px"placeholder="keyword">
+                            
+                              <input type="submit" class="btn btn-primary" value="Search">
+                             
                           </form>
                       </div>
                   </div>

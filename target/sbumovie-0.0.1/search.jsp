@@ -15,7 +15,7 @@
 
       <div class="col-md-1"></div>
 
-      <div class="col-md-10" style="background-color: ">
+      <div class="col-md-10" >
             <div class="row">
               <!--movies start here-->
 
@@ -27,7 +27,7 @@
 
                           <div class="row">
                           <div class="item">
-                              <div class="item col-md-3" style="background-color:">
+                              <div class="item col-md-3">
 
                               <img class="item-image" src="${movie.mainImagePath}" alt="${movie.title}">
                               </div>
@@ -58,18 +58,14 @@
                                       <br>
                                       <br>
                                       <h5><c:out value="${movie.length} min"/> </h5>
-                                      <h5><c:out value="${ gdao.getGenreStrByMovieId(movie.id)}"/></h5>
+                                      <h5><c:out value="${movie.genre}"/></h5>
 
                                   </div>
-                                  <button type="button" class="pull-right btn">Buy Tickets</button>
+                                  <!-- <button type="button" class="pull-right btn">Buy Tickets</button> -->
                               </div>
                           </div>
-
-
-
                     </div>
                 </div>
-              </div>
 
                   </c:if>
               </c:forEach>
@@ -117,33 +113,33 @@
               <!--actors end here-->
 
               <!--theater starts here-->
-              <li class="list-group-item">
+              <c:forEach items="${theater}" var="t" varStatus="status1">
+                  <li class="list-group-item">
                   <div class="gallery_product filter all theaters">
                       <div class="row">
 
                           <div class="item">
-                              <div class="item col-md-3" style="background-color:">
+                              <!-- <div class="item col-md-3" style="background-color:">
                                   <img class="item-image" src="img/theater.jpg" alt="">
-                              </div>
+                              </div> -->
                               <div class="item-detail col-md-9">
                                   <div class="col-md-5">
                                       <br>
                                       <div class="item-title">
-                                          <h4>AMC Loews 17 Stony Brook</h4>
+                                          <h4>${t.name }</h4>
                                       </div>
                                         <br>
                                       <br>
-                                      <h5><a href="www.google.com/maps" class="nav-link">2196 Nesconset Highway, Stony Brook, NY 11790</a></h5>
-
-
+                                      <h5><a href="theater.do?theaterId=${t.id}" class="nav-link">${t.address }</a></h5>
                                   </div>
-                                  <button type="button" class="pull-right btn">Buy Tickets</button>
                               </div>
                           </div>
 
                       </div>
                   </div>
               </li>
+            </c:forEach>
+              
               <!--theater ends here-->
 
               <!--news start here-->

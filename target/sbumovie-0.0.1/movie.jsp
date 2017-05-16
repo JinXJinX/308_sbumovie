@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.io.*,java.util.*, com.movie.form.User" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="header.jsp" flush="true" />
 <c:set var="actors" scope="session" value="${adao.getActorsByMovieId(movie.id)}"/>
@@ -16,6 +17,112 @@
 -->
 
 <body>
+
+<script type="text/javascript">
+
+function likeMovie(id){
+	$.ajax({
+        url: "movieLike.do",
+        data: {
+            movieId: id,
+        },
+        success: function (json) {
+            var data = json.statue;
+            if(data=="success"){
+            	/* alert("success"); */
+            }else if(data=="login"){
+               	alert("login");
+            }else{
+            	/* alert("fail"); */
+            }
+        }
+    })
+    var str = document.getElementById('movieLike').src
+    if (str.includes('unfav')) {
+        document.getElementById('movieLike').src='img/fav.png'
+    }else{
+    	document.getElementById('movieLike').src='img/unfav.png'
+    }
+}
+function alertMovie(id){
+	$.ajax({
+        url: "movieAlert.do",
+        data: {
+            movieId: id,
+        },
+        success: function (json) {
+            var data = json.statue;
+            if(data=="success"){
+            	/* alert("success"); */
+            }else if(data=="login"){
+               	alert("login");
+            }else{
+            	/* alert("fail"); */
+            }
+        }
+    })
+    var str = document.getElementById('movieAlert').src
+    if (str.includes('unalert')) {
+        document.getElementById('movieAlert').src='img/alert.png'
+    }else{
+    	document.getElementById('movieAlert').src='img/unalert.png'
+    }
+}
+function sentAlert(id){
+	$.ajax({
+        url: "sentAlert.do",
+        data: {
+            movieId: id,
+        },
+        success: function (json) {
+            var data = json.statue;
+            if(data=="success"){
+            	alert("alert success");
+            }else if(data=="login"){
+               	alert("login");
+            }else{
+            	alert("alert fail");
+            }
+        }
+    })
+}
+function likeReview(id, status){
+	$.ajax({
+        url: "reviewLike.do",
+        data: {
+            reviewId: id,
+            status: status,
+        },
+        success: function (json) {
+            var data = json.statue;
+            if(data=="success"){
+            	alert("+1");
+            }else if(data=="login"){
+               	alert("login");
+            }else{
+            	alert("-1");
+            }
+        }
+    })
+}
+function deleteReview(id){
+	$.ajax({
+        url: "deleteReview.do",
+        data: {
+            reviewId: id,
+        },
+        success: function (json) {
+            var data = json.statue;
+            if(data=="success"){
+            	alert("delete success");
+            }else{
+            	alert("delete fail");
+            }
+        }
+    })
+}
+</script>
+
     <div class="container">
         <br>
         <br>
@@ -42,20 +149,49 @@
             </div>
             <div class="col-md-8 col-md-12" style="background-color:">
                 <div class="row" >
-                        <h1>${ movie.title }
+                        <h1>${ movie.title }&nbsp;&nbsp;
                         <c:choose>
-            						    <c:when test="${ movie.releaseDate != null }">
-            						        (${movie.releaseDate })
-            						    </c:when>
-            						</c:choose>
+   						    <c:when test="${ movie.releaseDate != null }">
+   						        (${(fn:split(movie.releaseDate, ' '))[0]})
+   						    </c:when>
+   						</c:choose>
+                        <br>
+                        <c:choose>
+	                          <c:when test="${like}">
+	                              <img id="movieLike" src="img/fav.png" onclick="likeMovie(${movie.id})">
+	                          </c:when>
+	                          <c:otherwise>
+	                              <img id="movieLike" src="img/unfav.png" onclick="likeMovie(${movie.id})">
+	                          </c:otherwise>
+	                    </c:choose>
+						
+						<c:choose>
+	                          <c:when test="${alert}">
+	                              <img id="movieAlert" src="img/alert.png" onclick="alertMovie(${movie.id})">
+	                          </c:when>
+	                          <c:otherwise>
+	                              <img id="movieAlert" src="img/unalert.png" onclick="alertMovie(${movie.id})">
+	                          </c:otherwise>
+	                    </c:choose>
+						
+ 						<%-- <a href="javascript:void(0);" onclick="alertMovie(${movie.id})">Alert</a>  --%> 
+ 						
+ 						<c:choose>
+	                          <c:when test="${user != null && user.type ==1}">
+	                              <a href="javascript:void(0);" onclick="sentAlert(${movie.id})">Sent Alert</a>
+	                          </c:when>
+	                    </c:choose> 
+                        
+                        <br>
+                        
 
                         </h1><span class="glyphicons glyphicons-heart-empty"></span>
                         <br>
-                        <h4>${ movie.length } min - ${ gdao.getGenreStrByMovieId(movie.id) } </h4>
-
+                        <%-- <h4>${ movie.length } min - ${ movie.genre } </h4>
+ --%>
                 </div>
 
-                        <div class="btn-group">
+                        <!-- <div class="btn-group">
                             <button type="button" class="btn btn-default"><a href="homepage.html">Synopsis</a></button>
                             <button type="button" class="btn btn-default"><a href="#">Movie Times</a></button>
                             <button type="button" class="btn btn-default"><a href="#">Trailers</a></button>
@@ -71,7 +207,7 @@
                                 <li><a href="#"></a></li>
                             </ul>
 
-                        </div>
+                        </div> -->
                         <br>
                         <div class="container">
                             <div class="row">
@@ -80,7 +216,7 @@
                                     <div class="rating">
                                       <c:forEach  var = "i" begin="2" end="10" step="2">
                                       <c:choose>
-                                            <c:when test="${ i < movie.fanRating }">
+                                            <c:when test="${ i <= movie.fanRating }">
                                               <span class="glyphicon glyphicon-star"></span>
                                             </c:when>
                                             <c:otherwise>
@@ -176,12 +312,13 @@
                     <h5>Duration: ${movie.length} min</h5>
                     <h5>Language: ${movie.language} </h5>
                     <h5>IMDB ID: ${movie.imdbId} </h5>
+                    <h5>Synopsis: ${movie.synopsis} </h5>
                     <br>
 
                 </div>
 
             </div>
-                            <div class="container">
+                           <!--  <div class="container">
                                 <div class="row">
                                     <div class="col-md-4 text-left" style="background-color:; width: 150px; height: 100px">
 
@@ -193,45 +330,55 @@
                     </div>
 
                                 </div>
-                            </div>
-
-
-
+                            </div> -->
 
         </div>
 
                 </div>
         <br>
-            <h3>CAST + CREW-------------------------------------------------------------------------------------------------------</h3>
-            <div class="visual-list-container  native-scrolling text-left" style="background-color: s">
+ <c:choose>
+         <c:when test="${movie.trailerPath != null }">
+        <h3>TRAILER-----------------------------------------------------------------------------------------------------------</h3>
+
+            <div class="col-md-9 col-md-offset-3">
+                
+                        <iframe width="560" height="315" src="${movie.trailerPath }" frameborder="0" allowfullscreen></iframe>
+ 
+            </div>
+        <br><br><br><br><br><br><br><br>
+         </c:when>
+      </c:choose>
+      
+            <h3>CAST + CREW-----------------------------------------------------------------------------------------------------</h3>
+       <div class="visual-list-container  native-scrolling text-left" style="background-color: s">
 
         <ul class="list-inline">
             <c:forEach items="${actors}" var="actor" varStatus="status1">
+            	<c:choose>
+                              <c:when test="${actor.id != null }">
                 <li class="list-group-item">
                     <a href="actor.do?actorId=${actor.id}">
                         <c:choose>
                               <c:when test="${ actor.mainImagePath != null && actor.mainImagePath.length() > 1 }">
-                                <img src="${actor.mainImagePath}" alt="">
+                                <img src="${actor.mainImagePath}" width="185" height ="250" alt="">
                               </c:when>
                               <c:otherwise>
-                                <img src="img/default_actor.jpg" alt="">
+                                <img src="img/default_actor.jpg" width="185" height ="250" alt="">
                               </c:otherwise>
                           </c:choose>
                     </a>
                     <h6>${actor.name}</h6>
                     <h6 style="color: lightgray"><i>${adao.getCharacter(movie.id, actor.id)}</i></h6>
                 </li>
+                 </c:when>
+                </c:choose>
             </c:forEach>
 
         </ul>
 
     </div>
     
-    <% 
-	User user= (User)request.getSession().getAttribute("user");
-	if(user!=null){
-		%>
-		<h3>REVIEWS--------------------------------------------------------------------------------------------------------------</h3>
+		<h3>REVIEWS----------------------------------------------------------------------------------------------------------</h3>
 
             <div class="col-md-10">
                 <div class="widget-area no-padding blank">
@@ -248,11 +395,6 @@
                     </div>
                 </div>
             </div>
-	    <% 
-	}
-%>
-            
-
 
         <c:forEach items="${reviews}" var="review" varStatus="status1">
                     <div class="col-md-8">
@@ -263,16 +405,18 @@
 
                     <div class="span6">
                         review content: ${review.content }
-                        <a href="reviewlike.do?reviewId=${review.id}&status=1">
-                                  Like
-                        </a>
+                        <a href="javascript:void(0);" onclick="likeReview(${review.id}, 1)">Like</a>
                         ${review.numLike}
-                        <a href="reviewlike.do?reviewId=${review.id}&status=-1">
-                          Dislike
-                        </a>
-                        <a href="deleteR.do?reviewId=${review.id}">
-                          Delete
-                        </a>
+                        <a href="javascript:void(0);" onclick="likeReview(${review.id}, -1)">Dislike</a>
+                         <c:choose>
+                              <c:when test="${ user != null && (user.id == review.userId || user.type==1) }">
+                                <%-- <a href="deleteR.do?reviewId=${review.id}">
+			                        Delete
+			                        </a> --%>
+			                    <a href="javascript:void(0);" onclick="deleteReview(${review.id})">Delete</a>
+                              </c:when>
+                          </c:choose>
+                        
                     </div>
 
                     <div class="span8">

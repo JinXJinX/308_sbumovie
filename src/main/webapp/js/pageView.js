@@ -8,13 +8,13 @@ function initPage(currentpage, totalpage){
 	var sbf = new StringBuffer();
 	if(currentpage == 1){
 		sbf.append("<a href=\"javascript:void(0);\" id=\"startpage\">First Page</a>");
-		sbf.append("<a href=\"javascript:void(0);\" id=\"lastpage\">Page Up</a>");
+		sbf.append("<a href=\"javascript:void(0);\" id=\"lastpage\">Previou</a>");
 	}
 	else{
 		sbf.append("<a href=\"javascript:topage(1);\" id=\"startpage\">First Page</a>");
 		sbf.append("<a href=\"javascript:topage(");
 		sbf.append(currentpage-1);
-		sbf.append(");\" id=\"lastpage\">Page Up</a>");
+		sbf.append(");\" id=\"lastpage\">Previou</a>");
 	}
 	/** 遍历页数---开始 */
 	if(totalpage < 11){
@@ -36,12 +36,12 @@ function initPage(currentpage, totalpage){
 	}
 	/** 遍历页数---结束 */
 	if(currentpage == totalpage){
-		sbf.append("<a href=\"javascript:void(0);\" id=\"nextpage\">Page Down</a>");
+		sbf.append("<a href=\"javascript:void(0);\" id=\"nextpage\">NEXT</a>");
 		sbf.append("<a href=\"javascript:void(0);\" id=\"endpage\">Last Page</a>");
 	}else{
 		sbf.append("<a href=\"javascript:topage(");
 		sbf.append(currentpage+1);
-		sbf.append(");\" id=\"nextpage\">Page Down</a>");
+		sbf.append(");\" id=\"nextpage\">NEXT</a>");
 		sbf.append("<a href=\"javascript:topage(");
 		sbf.append(totalpage);
 		sbf.append(");\" id=\"endpage\">Last Page</a>");

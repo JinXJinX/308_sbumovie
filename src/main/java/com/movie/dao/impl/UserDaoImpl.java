@@ -16,8 +16,10 @@ import util.Constant;
 
 import com.movie.dao.api.UserDao;
 import com.movie.form.Actor;
+import com.movie.form.Article;
 import com.movie.form.Giftcard;
 import com.movie.form.Movie;
+import com.movie.form.MovieAlert;
 import com.movie.form.Support;
 import com.movie.form.Theater;
 import com.movie.form.User;
@@ -69,10 +71,18 @@ public class UserDaoImpl implements UserDao {
 		return Constant.SUCCESS;
 	}
 	
-	public User getUserByUserId(long userId) {
+	public User getUserByUserId(int userId) {
 		Session session = sessionFactory.getCurrentSession();
-		User user = (User) session.get(User.class, userId);
-		return user;
+		Query query = session.createQuery(
+				"from User user where user.id=:id");
+		query.setParameter("id", userId);
+		@SuppressWarnings("unchecked")
+		List<User> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
+		}
 	}
 
 	public int updateUser(User user) {
@@ -179,6 +189,57 @@ public class UserDaoImpl implements UserDao {
 		} 
 		@SuppressWarnings("unchecked")
 		List<Theater> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList;
+		}
+	}
+	
+	public List<MovieAlert> getAlertUser(int movieId){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from MovieAlert movieAlert where movieAlert.movieId=:movieId");
+		query.setParameter("movieId", movieId);
+		@SuppressWarnings("unchecked")
+		List<MovieAlert> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList;
+		}
+	}
+	public List<User> getNewsUser() {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from User user where user.news=:news");
+		query.setParameter("news", true);
+		@SuppressWarnings("unchecked")
+		List<User> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList;
+		}
+	}
+	public List<Support> getSupports() {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from Support support");
+		@SuppressWarnings("unchecked")
+		List<Support> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList;
+		}
+	}
+	public List<Article> getArticles() {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				"from Article article");
+		@SuppressWarnings("unchecked")
+		List<Article> resultList = query.list();
 		if (resultList.isEmpty()) {
 			return null;
 		} else {

@@ -12,10 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.movie.dao.api.ActorDao;
+import com.movie.dao.api.LikeDao;
 import com.movie.dao.api.MovieDao;
 import com.movie.dao.api.PerformDao;
 import com.movie.dao.api.ReviewDao;
@@ -23,6 +25,8 @@ import com.movie.form.Actor;
 import com.movie.form.Movie;
 import com.movie.form.Performs;
 import com.movie.form.Review;
+import com.movie.form.ReviewLike;
+import com.movie.form.User;
 
 @Controller
 public class ReviewController {
@@ -34,11 +38,18 @@ public class ReviewController {
 	PerformDao performDao;
 	@Resource(name="reviewDaoImpl")
 	ReviewDao reviewDao;
+	@Resource(name="likeDaoImpl")
+	LikeDao likeDao;
+	
 	@RequestMapping(value="addReview.do")
 	public String addReview(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null){
+			return "redirect:login.do";
+		}
 		System.out.println("***"+request.getParameter("userId"));
 		System.out.println(request.getParameter("movieId"));
-		int userId = Integer.parseInt(request.getParameter("userId")==null?"0":request.getParameter("userId"));
+		int userId = Integer.parseInt(request.getParameter("userId")==null||request.getParameter("userId").equals("")?"1":request.getParameter("userId"));
 		int movieId = Integer.parseInt(request.getParameter("movieId"));
 		String content = request.getParameter("content");
 		String title = request.getParameter("title");
@@ -101,6 +112,29 @@ public class ReviewController {
 		}
 		response.getWriter().write(result.toString());
 	}
+	
+	@RequestMapping(value="reviewLike.do",method={RequestMethod.POST,RequestMethod.GET})
+	public void reviewlike(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		JSONObject result = new JSONObject();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		int reviewId = Integer.parseInt(request.getParameter("reviewId"));
+		int status = Integer.parseInt(request.getParameter("status"));
+		System.out.println("get reivew Id " + reviewId + "   status:" + status);
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null){
+			result.put("statue", "login");
+		}else if(likeDao.likeReview(user.getId(), reviewId, status)){
+			result.put("statue", "success");
+		}else{
+			result.put("statue", "fail");
+		}
+		Review review = reviewDao.getReviewById(reviewId);
+		review.setNumLike(review.getNumLike() + status);
+		reviewDao.updateReview(review);
+		response.getWriter().write(result.toString());
+	}
+	
 	@RequestMapping(value="reviewUpdatePre.do")
 	public String reviewUpdatePre(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		int reviewId = Integer.parseInt(request.getParameter("reviewId"));

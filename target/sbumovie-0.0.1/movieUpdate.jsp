@@ -22,10 +22,22 @@
                 <input id="length" name="length" class="form-control" type="text" placeholder="20" class="input-large" required="" value="${movie.length}">
               </div>
             </div>
+            <div class="control-group">
+              <label class="control-label" for="title">image path</label>
+              <div class="controls">
+                <input id="imagePath" name="imagePath" class="form-control" type="text" placeholder="" class="input-large" required="" value="${movie.mainImagePath}">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="title">trailer path</label>
+              <div class="controls">
+                <input id="trailerPath" name="trailerPath" class="form-control" type="text" placeholder="" class="input-large" required="" value="${movie.trailerPath}">
+              </div>
+            </div>
              <div class="control-group">
               <label class="control-label" for="userid">synopsis:</label>
               <div class="controls">
-                <input id="synopsis" name="synopsis" class="form-control" type="text" placeholder="synopsis" class="input-large" required="  value="${movie.synopsis}">
+                <input id="synopsis" name="synopsis" class="form-control" type="text" placeholder="synopsis" class="input-large" required=""  value="${movie.synopsis}">
               </div>
             </div>
                 <input id="movieId" name="movieId" class="form-control" type="hidden" value="${movie.id}">

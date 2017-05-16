@@ -89,7 +89,7 @@ $(document).ready(function()
 		});
 
 </script>
-				<h2><span id="listaddress">Movie</span><span id="listTitle">List</span><span ></span></h2>
+				<h2><span id="listaddress">Actor</span><span id="listTitle">List</span><span ></span></h2>
 					<table  border="1" cellspacing="1" cellpadding="0" class="bdata-infoitem-table centerData noheight">
 						<tr id="alldata_id">
 							<!--class="levelth" -->

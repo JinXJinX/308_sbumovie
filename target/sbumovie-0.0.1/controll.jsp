@@ -123,11 +123,11 @@ function topage(page) {
         </c:forEach>
 </table>
 
-<a href="movieControll.jsp">movie list</a>
+<%-- <a href="movieControll.jsp">movie list</a>
 <a href="actroControll.jsp">actor list</a>
 <a href="reviewControll.jsp">review list</a>
 <p>
    Todays date is: <%= (new java.util.Date()).toLocaleString()%>
-</p>
+</p> --%>
 
 <jsp:include page="footer.jsp" flush="true" />

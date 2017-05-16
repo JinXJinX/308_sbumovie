@@ -11,6 +11,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.movie.dao.api.MovieDao;
 import com.movie.form.Movie;
+import com.movie.form.MovieAlert;
+import com.movie.form.MovieLike;
+import com.movie.form.TheaterLike;
 
 import util.Constant;
 @Transactional
@@ -168,5 +172,106 @@ public class MovieDaoImpl implements MovieDao{
 		query.setParameter("keyword", "%"+keyword+"%");
 		query.setParameter("keyword", "%"+keyword+"%");
 		return (Long) query.iterate().next();
+	}
+
+	public boolean addMovieLike(int movieId, int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		MovieLike ml = getMovieLike(movieId, userId);
+		if(ml == null){
+			ml = new MovieLike();
+		}else{
+			session.delete(ml);//dislike
+			return false;
+		}
+		ml.setMovieId(movieId);
+		ml.setUserId(userId);
+		System.out.println(movieId + " movieid, " + userId + " userId");
+		try {
+			session.save(ml);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean addMovieAlert(int movieId, int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		MovieAlert ma = getMovieAlert(movieId, userId);
+		if(ma == null){
+			ma = new MovieAlert();
+		}else{
+			session.delete(ma);//dislike
+			return false;
+		}
+		ma.setMovieId(movieId);
+		ma.setUserId(userId);
+		System.out.println(movieId + " movieid, " + userId + " userId");
+		try {
+			session.save(ma);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean addTheaterLike(int theaterId, int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		TheaterLike tl = getTheaterLike(theaterId, userId);
+		if(tl == null){
+			tl = new TheaterLike();
+		}else{
+			session.delete(tl);//dislike
+			return false;
+		}
+		tl.setTheaterId(theaterId);
+		tl.setUserId(userId);
+		try {
+			session.save(tl);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public MovieLike getMovieLike(int movieId, int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from MovieLike movieLike where movieLike.movieId=:movieId and movieLike.userId=:userId");
+		query.setParameter("movieId", movieId);
+		query.setParameter("userId", userId);
+		List<MovieLike> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
+		}
+	}
+
+	public MovieAlert getMovieAlert(int movieId, int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from MovieAlert movieAlert where movieAlert.movieId=:movieId and movieAlert.userId=:userId");
+		query.setParameter("movieId", movieId);
+		query.setParameter("userId", userId);
+		List<MovieAlert> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
+		}
+	}
+
+	public TheaterLike getTheaterLike(int theaterId, int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from TheaterLike theaterLike where theaterLike.theaterId=:theaterId and theaterLike.userId=:userId");
+		query.setParameter("theaterId", theaterId);
+		query.setParameter("userId", userId);
+		List<TheaterLike> resultList = query.list();
+		if (resultList.isEmpty()) {
+			return null;
+		} else {
+			return resultList.get(0);
+		}
 	}
 }

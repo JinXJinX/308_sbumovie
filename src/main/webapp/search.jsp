@@ -15,7 +15,7 @@
 
       <div class="col-md-1"></div>
 
-      <div class="col-md-10" style="background-color: ">
+      <div class="col-md-10" >
             <div class="row">
               <!--movies start here-->
 
@@ -27,7 +27,7 @@
 
                           <div class="row">
                           <div class="item">
-                              <div class="item col-md-3" style="background-color:">
+                              <div class="item col-md-3">
 
                               <img class="item-image" src="${movie.mainImagePath}" alt="${movie.title}">
                               </div>
@@ -58,18 +58,14 @@
                                       <br>
                                       <br>
                                       <h5><c:out value="${movie.length} min"/> </h5>
-                                      <h5><c:out value="${ gdao.getGenreStrByMovieId(movie.id)}"/></h5>
+                                      <h5><c:out value="${movie.genre}"/></h5>
 
                                   </div>
-                                  <button type="button" class="pull-right btn">Buy Tickets</button>
+                                  <!-- <button type="button" class="pull-right btn">Buy Tickets</button> -->
                               </div>
                           </div>
-
-
-
                     </div>
                 </div>
-              </div>
 
                   </c:if>
               </c:forEach>

@@ -3,9 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.io.*,java.util.*, com.movie.form.User" %>
 <jsp:include page="header.jsp" flush="true" />
-
+<div class="col-md-offset-4 col-md-6">
 <form action="support.do" method="post">
-  Question:
+<h1>Ask For Support</h1>
+  Question:<br>
   ​<textarea name="question" id="txtArea" rows="10" cols="40" placeholder="type your question here"></textarea><br>
   
   Your email:
@@ -22,5 +23,5 @@
 
 
 </form> 
-
+</div>
 <jsp:include page="footer.jsp" flush="true" />

@@ -42,6 +42,8 @@ public class Movie implements Serializable {
     private String genre;
     @Column(name="showing")
     private int showing;
+    @Column(name="boxoffice")
+    private int boxoffice;
     public String getGenre() {
 		return genre;
 	}
@@ -118,6 +120,21 @@ public class Movie implements Serializable {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	public String getTrailerPath() {
+		return trailerPath;
+	}
+	public void setTrailerPath(String trailerPath) {
+		this.trailerPath = trailerPath;
+	}
+	public int getShowing() {
+		return showing;
+	}
+	public int getBoxoffice() {
+		return boxoffice;
+	}
+	public void setBoxoffice(int boxoffice) {
+		this.boxoffice = boxoffice;
 	}
 
 }

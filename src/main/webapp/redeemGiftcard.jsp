@@ -13,6 +13,8 @@
 	    <% 
 	}
 %>
+<div class="col-md-offset-3 col-md-6">
+<h1>Use Gift Card</h1>
 <form action="redeemGiftcard.do" method="post">
 	Gift card digits
            <input type="text" name="card" placeholder="card 6 digits" required=""><br>
@@ -20,5 +22,6 @@
 
 
 </form> 
+</div>
 
 <jsp:include page="footer.jsp" flush="true" />

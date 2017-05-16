@@ -4,6 +4,7 @@
 <%@ page import="java.io.*,java.util.*, com.movie.form.User" %>
 <jsp:include page="header.jsp" flush="true" />
 <body>
+<div class="col-md-offset-3 col-md-6">
             <form class="form-horizontal" method="post" action="register.do">
             <fieldset>
             <!-- Sign Up Form -->
@@ -126,11 +127,11 @@
             <!-- money amount -->
             
               <c:choose>
-                 <c:when test="${user != null && user.news == true}">
+                 <c:when test="${user != null}">
                      <div class="control-group">
-		              <label class="control-label" for="password">receive Newsletter:</label>
+		              
 			              <div class="controls">
-			                     Price amount $: ${user.money}
+			                     <h3>Money Amount $: ${user.money}</h3>
 			                </div>
 		            </div>
                 </c:when>
@@ -156,4 +157,5 @@
             </div>
             </fieldset>
             </form>
+            </div>
 </body>

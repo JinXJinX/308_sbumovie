@@ -18,43 +18,17 @@ public class Article {
 	@Id
 	@GeneratedValue
 	private int id;
-	@Column(name="userId")
-	private int userId;
-	@Column(name="movieId")
-	private int movieId;
-	@Column(name="time")
-	private Date time;
 	@Column(name="title")
 	private String title;
-	@Column(name="content", length=20000)
-	private String content;
-	@Column(name="authorName")
-	private String authorName;
-	@Column(name="numlike")
-	private int numlike;
+	@Column(name="url")
+	private String url;
+	@Column(name="imageUrl")
+	private String imageUrl;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-	public int getMovieId() {
-		return movieId;
-	}
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
-	}
-	public Date getTime() {
-		return time;
-	}
-	public void setTime(Date time) {
-		this.time = time;
 	}
 	public String getTitle() {
 		return title;
@@ -62,23 +36,18 @@ public class Article {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getContent() {
-		return content;
+	public String getUrl() {
+		return url;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setUrl(String url) {
+		this.url = url;
 	}
-	public String getAuthorName() {
-		return authorName;
+	public String getImageUrl() {
+		return imageUrl;
 	}
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
-	public int getNumlike() {
-		return numlike;
-	}
-	public void setNumlike(int numlike) {
-		this.numlike = numlike;
-	}
+	
 	
 }

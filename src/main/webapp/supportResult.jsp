@@ -6,12 +6,12 @@
 
 
 <meta http-equiv="refresh" content="3;url=index.do">
-
+<div class="col-md-offset-3 col-md-6">
 <h1>Your will be contacted soon</h1>
 
 back to homepage in 3 sec
 <noscript>
 <meta http-equiv="refresh" content="3;url=/index.html">
 </noscript>
-
+</div>
 <jsp:include page="footer.jsp" flush="true" />

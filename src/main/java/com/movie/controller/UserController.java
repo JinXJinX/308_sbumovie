@@ -25,14 +25,18 @@ import com.movie.dao.api.ReviewDao;
 import com.movie.dao.api.UserDao;
 import com.movie.dao.impl.UserDaoImpl;
 import com.movie.form.Actor;
+import com.movie.form.Article;
 import com.movie.form.Giftcard;
 import com.movie.form.Movie;
+import com.movie.form.MovieAlert;
+import com.movie.form.Performs;
 import com.movie.form.Review;
 import com.movie.form.ReviewLike;
 import com.movie.form.Support;
 import com.movie.form.Theater;
 import com.movie.form.User;
 import util.Constant;
+import util.Email;
 
 @Controller
 //@RequestMapping
@@ -55,25 +59,6 @@ public class UserController {
 		request.getSession().removeAttribute("user");
 		return "redirect:index.do";
 	}
-	@RequestMapping(value="reviewlike.do",method={RequestMethod.POST,RequestMethod.GET})
-	public String reviewlike(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if( request.getSession().getAttribute("user") == null){
-			return "profile";
-		}
-		int userId = (int) ((User) request.getSession().getAttribute("user")).getId();
-		int reviewId = Integer.parseInt(request.getParameter("reviewId"));
-		int status = Integer.parseInt(request.getParameter("status"));
-		System.out.println(status);
-		ReviewLike reviewlike = new ReviewLike();
-		reviewlike.setUserId(userId);
-		reviewlike.setReviewId(reviewId);
-		reviewlike.setStatus(status);
-		boolean r = likeDao.likeReview(reviewlike);
-		Review review = reviewDao.getReviewById(reviewId);
-		review.setNumLike(review.getNumLike() + status);
-		reviewDao.updateReview(review);
-		return "redirect:movieDetail.do?movieId="+review.getMovieId();
-	}
 	
 	@RequestMapping(value="index.do")
 	public String indexAction(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
@@ -84,7 +69,9 @@ public class UserController {
 		calendar.add(Calendar.YEAR, -1);
 		date = calendar.getTime();
 		List<Movie> movies = movieDao.getMovieByDataTime(sdf.format(date));
+		List<Article> articles = userDao.getArticles();
 		request.setAttribute("movies", movies);
+		request.getSession().setAttribute("articles", articles);
 		return "index";
 	}
 	@RequestMapping(value="loginAction.do")
@@ -196,7 +183,7 @@ public class UserController {
 	@RequestMapping(value="giftcard.do")
 	public String giftcard(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		User buyer = (User) request.getSession().getAttribute("user");
-		String email = request.getParameter("email");
+		String email = request.getParameter("email").trim();
 		String message = request.getParameter("message");
 		int amount = Integer.parseInt(request.getParameter("amount"));
 		Random rnd = new Random();
@@ -212,14 +199,27 @@ public class UserController {
 		gc.setCardId(n);
 		userDao.saveGiftcard(gc);
 		//send card message to receiver email
-		System.out.println("gift id is: " + n);
+		Email myEmail = new Email();
+		String subject = Constant.GIFTCARD_SUBJECT;
+		String text = Constant.GIFTCARD_TEXT
+				.replace("XintX", ""+gc.getCardId())
+				.replace("XmoneyX", ""+gc.getAmount())
+				.replace("XheX", buyer.getEmail())
+				.replace("XmsgX", message);
+		myEmail.sentEmail(email, subject,text);
+//		System.out.println("gift id is: " + n);
 		return "giftcardResult";
 	}
 	
 	@RequestMapping(value="redeemGiftcard.do")
 	public String redeemGiftcard(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
-		int card = Integer.parseInt(request.getParameter("card"));
+		int card = 0;
+		try{
+			card = Integer.parseInt(request.getParameter("card"));
+		}catch(Exception e){
+			
+		}
 		Giftcard gc = userDao.getGiftcard(card);
 		if(gc == null || gc.isUsed() == true){
 			return "register";
@@ -235,7 +235,53 @@ public class UserController {
 	public String theater(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		int theaterId = Integer.parseInt(request.getParameter("theaterId"));
 		Theater theater = userDao.getTheater(theaterId);
+		User user = (User) request.getSession().getAttribute("user");
+		boolean like = false;
+		if(user != null){
+			like = likeDao.checklikeThreater(user.getId(), theaterId);
+		}
+		request.setAttribute("like", like);
 		request.setAttribute("theater", theater);
 		return "theater";
+	}
+	
+	@RequestMapping(value="testAjax.do")
+	public void testAjax(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+		JSONObject result = new JSONObject();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		int actorId = Integer.parseInt(request.getParameter("actorId"));
+		System.out.println("actorId"+actorId);
+		result.put("statue", "success");
+		response.getWriter().write(result.toString());
+	}
+	
+	@RequestMapping(value="news.do")
+	public void news(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+		JSONObject result = new JSONObject();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		String content = request.getParameter("content");
+		User user = (User) request.getSession().getAttribute("user");
+		Email email = new Email();
+		if(user == null){
+			System.out.println("return success");
+			result.put("statue", "login");
+		}else{
+			List<User> users = userDao.getNewsUser();
+			String subject = Constant.NEWS_SUBJECT;
+			String text = content;
+			for(User u :users){
+				email.sentEmail(u.getEmail(), subject,text);
+			}
+		}
+		result.put("statue", "success");
+		response.getWriter().write(result.toString());
+	}
+	@RequestMapping(value="getSupport.do")
+	public String getSupport(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+		List<Support> supports = userDao.getSupports();
+		request.setAttribute("supports", supports);
+		return "viewSupport";
 	}
 }
