@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.io.*,java.util.*, com.movie.form.User" %>
+<%@ page import="java.io.*,java.util.*, com.movie.form.User, com.movie.dao.impl.LikeDaoImpl" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <jsp:include page="header.jsp" flush="true" />
 <c:set var="actors" scope="session" value="${adao.getActorsByMovieId(movie.id)}"/>
 <link href="css/moviepage.css" rel="stylesheet" type="text/css"/>
@@ -95,15 +94,29 @@ function likeReview(id, status){
         },
         success: function (json) {
             var data = json.statue;
-            if(data=="success"){
-            	alert("+1");
-            }else if(data=="login"){
-               	alert("login");
+            if(data=="login"){
+            	alert("login");
+            	window.location="login.do";
             }else{
-            	alert("-1");
-            }
+	            /* if(data=="success"){
+	            	alert("+1");
+	            }else{
+	            	alert("-1");
+	            } */
+	            location.reload();
+        	}
         }
     })
+    if (status > 0) {
+        document.getElementById('reviewImgL').src='img/like.png'
+        document.getElementById('reviewImgD').src='img/undislike.png'
+    }else if(status == 0){
+    	document.getElementById('reviewImgL').src='img/unlike.png'
+        document.getElementById('reviewImgD').src='img/undislike.png'
+    }else{
+    	document.getElementById('reviewImgL').src='img/unlike.png'
+    	document.getElementById('reviewImgD').src='img/dislike.png'
+    }
 }
 function deleteReview(id){
 	$.ajax({
@@ -118,6 +131,7 @@ function deleteReview(id){
             }else{
             	alert("delete fail");
             }
+            location.reload();
         }
     })
 }
@@ -149,7 +163,7 @@ function deleteReview(id){
             </div>
             <div class="col-md-8 col-md-12" style="background-color:">
                 <div class="row" >
-                        <h1>${ movie.title }&nbsp;&nbsp;
+                        <h1>${ movie.title }&nbsp;&nbsp;<br>
                         <c:choose>
    						    <c:when test="${ movie.releaseDate != null }">
    						        (${(fn:split(movie.releaseDate, ' '))[0]})
@@ -395,19 +409,38 @@ function deleteReview(id){
                     </div>
                 </div>
             </div>
-
+		<br><br><br><br>
         <c:forEach items="${reviews}" var="review" varStatus="status1">
                     <div class="col-md-8">
-
+                    
                         <div class="span8">
-                            <h4><strong>${ review.title }</strong></h4>
+                            <h3><strong>${ review.title }</strong></h3>
                         </div>
 
                     <div class="span6">
-                        review content: ${review.content }
-                        <a href="javascript:void(0);" onclick="likeReview(${review.id}, 1)">Like</a>
+                        <h4> ${review.content }</h4>
+                        <div style="display:inline;">
+                        <c:choose>
+                              <c:when test="${s == 1}">
+								<img id="reviewImgL" src="img/like.png" onclick="likeReview(${review.id}, 0)">
+								&nbsp;&nbsp;<p id="numLike">${review.numLike}</p>&nbsp;&nbsp;
+								<img id="reviewImgD" src="img/undislike.png" onclick="likeReview(${review.id}, -1)">
+							  </c:when>
+							  <c:when test="${s == -1}">
+								<img id="reviewImgL" src="img/unlike.png" onclick="likeReview(${review.id}, 1)">
+								&nbsp;&nbsp;<p id="numLike">${review.numLike}</p>&nbsp;&nbsp;
+								<img id="reviewImgD" src="img/dislike.png" onclick="likeReview(${review.id}, 0)">
+							  </c:when>
+			 				  <c:otherwise>
+                                <img id="reviewImgL" src="img/unlike.png" onclick="likeReview(${review.id}, 1)">
+                                &nbsp;&nbsp;<p id="numLike">${review.numLike}</p>&nbsp;&nbsp;
+								<img id="reviewImgD" src="img/undislike.png" onclick="likeReview(${review.id}, -1)">
+                              </c:otherwise>
+                        </c:choose>
+                        </div>
+                        <%-- <a href="javascript:void(0);" onclick="likeReview(${review.id}, 1)">Like</a>
                         ${review.numLike}
-                        <a href="javascript:void(0);" onclick="likeReview(${review.id}, -1)">Dislike</a>
+                        <a href="javascript:void(0);" onclick="likeReview(${review.id}, -1)">Dislike</a> --%>
                          <c:choose>
                               <c:when test="${ user != null && (user.id == review.userId || user.type==1) }">
                                 <%-- <a href="deleteR.do?reviewId=${review.id}">
@@ -421,7 +454,7 @@ function deleteReview(id){
 
                     <div class="span8">
                         <p>
-              <i class="icon-user"></i> by <a href="#">${review.authorName}</a>
+              <%-- <i class="icon-user"></i> by <a href="#">${review.authorName}</a> --%>
               | <i class="icon-calendar"></i> ${review.time}
             </p>
                     </div>

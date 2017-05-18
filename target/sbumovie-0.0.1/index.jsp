@@ -115,9 +115,9 @@
     </a>
   </div> -->
 
-
+<%-- 
 <p>
    Todays date is: <%= (new java.util.Date()).toLocaleString()%>
-</p>
+</p> --%>
 
 <jsp:include page="footer.jsp" flush="true" />

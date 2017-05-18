@@ -23,29 +23,6 @@
 <script src="js/filter.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/pageView.js"></script>
 
-<!-- facebook start -->
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1532719226761259',
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v2.8'
-    });
-    FB.AppEvents.logPageView();
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-  </script>
-
-<!-- facebook end -->
-
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
 
@@ -81,7 +58,7 @@
                                   </a>
                          </li>
                   </c:forEach>
-			      
+
 			    </ul>
 			</li>
 	        <li>
@@ -157,11 +134,11 @@
                       <div class="col-sm-3"><br></div>
                       <div class="col-sm-6">
                           <form method="post" action="search.do"class="form-inline">
-                          
-                              <input type="text" name="query" class="form-control"  style="width: 450px"placeholder="keyword">
-                            
+
+                              <input type="text" name="query" class="form-control" placeholder="keyword">
+
                               <input type="submit" class="btn btn-primary" value="Search">
-                             
+
                           </form>
                       </div>
                   </div>

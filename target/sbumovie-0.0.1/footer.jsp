@@ -11,14 +11,30 @@
 </script>
 </div>
 
+<SCRIPT TYPE="text/javascript"> 
+function targetopener(mylink, closeme, closeonly) {
+	if (! (window.focus && window.opener))
+		return true; window.opener.focus();
+	if (! closeonly)
+		window.opener.location.href=mylink.href;
+	if (closeme)
+		window.close(); 
+	return false; 
+} 
+</SCRIPT>
+
 <div class="container text-center">
-<hr />
+<hr>
 <div class="row">
 <div class="col-lg-12">
   <div class="col-md-3">
     <ul class="nav nav-pills nav-stacked">
+    	
       <li><a href="#">About us</a></li>
-      <li><a href="#">Blog</a></li>
+      <li><a href="" onclick="window.open('help.html', 'lefttop', 'width=290,height=500,left=50,top=100,scrollbars=yes'); return false;">
+      Help Bubble
+      </a></li>
+   
     </ul>
   </div>
   <div class="col-md-3">

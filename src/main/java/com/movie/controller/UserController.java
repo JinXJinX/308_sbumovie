@@ -41,7 +41,7 @@ import util.Email;
 @Controller
 //@RequestMapping
 public class UserController {
-	
+
 	@Resource(name = "userDaoImpl")
 	UserDao userDao;
 	@Resource(name="movieDaoImpl")
@@ -59,7 +59,7 @@ public class UserController {
 		request.getSession().removeAttribute("user");
 		return "redirect:index.do";
 	}
-	
+
 	@RequestMapping(value="index.do")
 	public String indexAction(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -78,7 +78,7 @@ public class UserController {
 	public String loginAction(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		String username = request.getParameter("email");
 		String password = request.getParameter("password");
-		System.out.println(username+password);
+		// System.out.println(username+password);
 		User user = userDao.getUserByUserName(username, password);
 		if(user == null){
 			user = userDao.getUserByEmail(username, password);
@@ -87,11 +87,7 @@ public class UserController {
 		if(user==null){
 			request.setAttribute("info", "Wrong!");
 			return "profile";
-		}else if(user.getType()==Constant.USER){//表示普通用户
-			request.getSession().setAttribute("user", user);
-			return "redirect:index.do";
-		}else if(user.getType()==Constant.ADMIN){//表示管理员
-			//List<Movie> movies = movieDao.getMovieByKeyWord("");
+		}else {
 			request.getSession().setAttribute("user", user);
 			return "redirect:index.do";
 		}
@@ -134,7 +130,7 @@ public class UserController {
 	@RequestMapping(value="search.do")
 	public String search(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		String query = request.getParameter("query").trim();
-		System.out.println(query+" // ");
+		// System.out.println(query+" // ");
 		List<Movie> movies = movieDao.getMovieByKeyWord(query);
 		List<Theater> theater = userDao.getTheaterByKey(query);
 		request.setAttribute("movies", movies);
@@ -142,7 +138,7 @@ public class UserController {
 		request.setAttribute("theater", theater);
 		return "search";
 	}
-	
+
 	@RequestMapping(value="searchTheater.do")
 	public String searchTheater(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		List<Theater> theater = userDao.getAllTheater();
@@ -150,7 +146,7 @@ public class UserController {
 		request.setAttribute("query", "All Theater");
 		return "search";
 	}
-	
+
 	@RequestMapping(value="searchGenre.do")
 	public String searchGenre(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		String genre = request.getParameter("genre").trim();
@@ -160,14 +156,14 @@ public class UserController {
 		request.setAttribute("query", genre);
 		return "search";
 	}
-	
+
 	@RequestMapping(value="controll.do")
 	public String controll(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		List<User> users = userDao.getAllUser();
 		request.setAttribute("users", users);
 		return "controll";
 	}
-	
+
 	@RequestMapping(value="support.do")
 	public String support(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		String email = request.getParameter("email");
@@ -179,7 +175,7 @@ public class UserController {
 		userDao.submitSupport(support);
 		return "supportResult";
 	}
-	
+
 	@RequestMapping(value="giftcard.do")
 	public String giftcard(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		User buyer = (User) request.getSession().getAttribute("user");
@@ -210,7 +206,7 @@ public class UserController {
 //		System.out.println("gift id is: " + n);
 		return "giftcardResult";
 	}
-	
+
 	@RequestMapping(value="redeemGiftcard.do")
 	public String redeemGiftcard(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
@@ -218,7 +214,7 @@ public class UserController {
 		try{
 			card = Integer.parseInt(request.getParameter("card"));
 		}catch(Exception e){
-			
+
 		}
 		Giftcard gc = userDao.getGiftcard(card);
 		if(gc == null || gc.isUsed() == true){
@@ -230,7 +226,7 @@ public class UserController {
 		userDao.updateGiftcard(gc);
 		return "register";
 	}
-	
+
 	@RequestMapping(value="theater.do")
 	public String theater(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
 		int theaterId = Integer.parseInt(request.getParameter("theaterId"));
@@ -244,7 +240,7 @@ public class UserController {
 		request.setAttribute("theater", theater);
 		return "theater";
 	}
-	
+
 	@RequestMapping(value="testAjax.do")
 	public void testAjax(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		JSONObject result = new JSONObject();
@@ -255,7 +251,7 @@ public class UserController {
 		result.put("statue", "success");
 		response.getWriter().write(result.toString());
 	}
-	
+
 	@RequestMapping(value="news.do")
 	public void news(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		JSONObject result = new JSONObject();

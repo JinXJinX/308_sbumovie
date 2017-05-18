@@ -107,7 +107,7 @@ function likeReview(id, status){
         	}
         }
     })
-    if (status == 1) {
+    if (status > 0) {
         document.getElementById('reviewImgL').src='img/like.png'
         document.getElementById('reviewImgD').src='img/undislike.png'
     }else if(status == 0){
@@ -163,7 +163,7 @@ function deleteReview(id){
             </div>
             <div class="col-md-8 col-md-12" style="background-color:">
                 <div class="row" >
-                        <h1>${ movie.title }&nbsp;&nbsp;
+                        <h1>${ movie.title }&nbsp;&nbsp;<br>
                         <c:choose>
    						    <c:when test="${ movie.releaseDate != null }">
    						        (${(fn:split(movie.releaseDate, ' '))[0]})

@@ -69,6 +69,23 @@
 	        <li><a href="searchTheater.do">Theaters</a></li>
 	        <li>
 			    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+			    News
+				</button>
+			    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+			    <c:forEach items="${articles}" var="article" varStatus="status1">
+
+                         <li role="presentation">
+                                  <a role="menuitem" tabindex="-1" href="${article.url}">
+                                  <img src="${article.imageUrl}" width="65" height ="45" alt="">
+                                    ${article.title }
+                                  </a>
+                         </li>
+                  </c:forEach>
+			      
+			    </ul>
+			</li>
+	        <li>
+			    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
 			    Genre
 				</button>
 			    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
